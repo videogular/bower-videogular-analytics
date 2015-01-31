@@ -1,5 +1,5 @@
 {
-  "name": "videogular-analytics",
+  "name": "videogular-angulartics",
   "version": "1.0.0",
   "main": "./analytics.js",
   "dependencies": {
