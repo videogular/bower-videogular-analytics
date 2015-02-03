@@ -1,9 +1,9 @@
 {
   "name": "videogular-angulartics",
   "version": "1.0.0",
-  "main": "./analytics.js",
+  "main": "./vg-analytics.js",
   "dependencies": {
-    "videogular": "latest",
-    "angulartics": "latest"
+    "videogular": "1.0.0",
+    "angulartics": "0.17.2"
   }
 }
