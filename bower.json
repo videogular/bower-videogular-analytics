@@ -3,7 +3,7 @@
   "version": "1.2.3",
   "main": "./vg-analytics.js",
   "dependencies": {
-    "videogular": "1.2.2",
+    "videogular": “1.2.3”,
     "angulartics": "0.17.2"
   }
 }
