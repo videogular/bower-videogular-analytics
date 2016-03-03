@@ -28,12 +28,12 @@
  *    "category": "Videogular",
  *    "label": "Main",
  *    "events": {
- *      "ready": true,     // Triggered when player is ready
- *      "play": true,      // Triggered each time player has been played
- *      "pause": true,     // Triggered each time player has been paused
- *      "stop": true,      // Triggered each time player has been stopped
- *      "complete": true,  // Triggered each time player has been completed
- *      "progress": 10     // Triggered each 10% of the progress video
+ *      "ready": true,                  // Triggered when player is ready
+ *      "play": true|'time'|'percent',  // Triggered each time player has been played. 'time' and 'percent' will attach the progress to the event value
+ *      "pause": true|'time'|'percent', // Triggered each time player has been paused. 'time' and 'percent' will attach the progress to the event value
+ *      "stop": true|'time'|'percent',  // Triggered each time player has been stopped. 'time' and 'percent' will attach the progress to the event value
+ *      "complete": true,               // Triggered each time player has been completed
+ *      "progress": 10                  // Triggered each 10% of the progress video
  *    }
  *  }
  * </pre>
@@ -46,9 +46,9 @@
  *    "label": "Main",
  *    "events": {
  *      "ready": true,
- *      "play": true,
- *      "pause": true,
- *      "stop": true,
+ *      "play": true|'time'|'percent',
+ *      "pause": true|'time'|'percent',
+ *      "stop": true|'time'|'percent',
  *      "complete": true,
  *      "progress": 10
  *    }
@@ -90,15 +90,24 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
 
                     switch (state) {
                         case VG_STATES.PLAY:
-                            if (scope.vgTrackInfo.events.play) scope.trackEvent("play");
+                            if (scope.vgTrackInfo.events.play) {
+                                scope.setValue(scope.vgTrackInfo.events.play);
+                                scope.trackEvent("play");
+                            }
                             break;
 
                         case VG_STATES.PAUSE:
-                            if (scope.vgTrackInfo.events.pause) scope.trackEvent("pause");
+                            if (scope.vgTrackInfo.events.pause) {
+                                scope.setValue(scope.vgTrackInfo.events.pause);
+                                scope.trackEvent("pause");
+                            }
                             break;
 
                         case VG_STATES.STOP:
-                            if (scope.vgTrackInfo.events.stop) scope.trackEvent("stop");
+                            if (scope.vgTrackInfo.events.stop) {
+                                scope.setValue(scope.vgTrackInfo.events.stop);
+                                scope.trackEvent("stop");
+                            }
                             break;
                     }
                 };
@@ -119,6 +128,20 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
                 scope.updateTrackInfo = function updateTrackInfo(newVal) {
                     if (scope.vgTrackInfo.category) info.category = scope.vgTrackInfo.category;
                     if (scope.vgTrackInfo.label) info.label = scope.vgTrackInfo.label;
+                };
+
+                scope.setValue = function setValue(eventType) {
+                    if (eventType) {
+                        if (eventType === 'percent') {
+                            if (API.totalTime > 1000) {
+                                info.value = Math.floor((API.currentTime / API.totalTime) * 100);
+                            } else {
+                                info.value = 0;
+                            }
+                        } else if (eventType === 'time') {
+                            info.value = Math.floor(API.currentTime / 1000);
+                        }
+                    }
                 };
 
                 scope.addWatchers = function () {
