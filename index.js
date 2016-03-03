@@ -1,3 +1,4 @@
+require('videogular');
 require('angulartics');
 require('./vg-analytics');
 
