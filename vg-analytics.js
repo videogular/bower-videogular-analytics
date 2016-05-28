@@ -1,5 +1,5 @@
 /**
- * @license videogular v1.4.3 http://videogular.com
+ * @license videogular v1.4.4 http://videogular.com
  * Two Fucking Developers http://twofuckingdevelopers.com
  * License: MIT
  */
@@ -209,7 +209,7 @@ angular.module("com.2fdevs.videogular.plugins.analytics", ["angulartics"])
 
                                     if (totalMiliseconds > 0) {
                                         var totalTracks = scope.vgTrackInfo.events.progress - 1;
-                                        var progressJump = Math.floor(totalMiliseconds / scope.vgTrackInfo.events.progress);
+                                        var progressJump = Math.floor(totalMiliseconds * scope.vgTrackInfo.events.progress / 100);
 
                                         for (var i = 0; i < totalTracks; i++) {
                                             progressTracks.push({
